@@ -1,50 +1,40 @@
 import {Component, OnInit} from '@angular/core';
 import {NzMessageService, NzModalRef} from 'ng-zorro-antd';
+import {_HttpClient} from '@delon/theme';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ModuleService} from "@core/service/sys/module.service";
 
 @Component({
-  selector: 'app-sys-module-edit',
+  selector: 'app-basic-user-edit',
   templateUrl: './edit.component.html',
-  // styleUrls: ['./edit.component.less']
+  styleUrls: ['./edit.component.less']
 })
-export class SysModuleEditComponent implements OnInit {
+export class BasicUserEditComponent implements OnInit {
   record: any = {};
   i: any;
   form: FormGroup;
-  levelList = [{value: '0', name: '一级模块'}, {value: '1', name: '二级模块'}];
+  genderList = [{value: '1', name: '男'}, {value: '2', name: '女'}];
   submitting = false;
 
-
   constructor(
-    private moduleService: ModuleService,
     private modal: NzModalRef,
     public msgSrv: NzMessageService,
+    public http: _HttpClient,
     private fb: FormBuilder
   ) {
   }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: [null, [Validators.required]],
-      url: [null, [Validators.required]],
-      type: [null, []],
-      levelNo: [null, []],
-      parentId: [null, []],
-      orderNo: [null, []],
-      icon: [null, []],
+      account: [null, [Validators.required]],
+      userName: [null, [Validators.required]],
+      phone: [null, []],
+      gender: [null, []],
     });
-    if (this.record.id > 0) {
-      this.moduleService.getOne(this.record.id).subscribe(res => {
-        this.i = res;
-        this.form.patchValue(res)
+    if (this.record.id > 0)
+      this.http.get<any>(`basic/user/get/${this.record.id}`).subscribe(res => {
+        this.i = res.data;
+        this.form.patchValue(res.data)
       });
-    } else {
-      if (this.record.parentId > 0) {
-        this.i = {parentId: this.record.parentId}
-        this.form.patchValue(this.i)
-      }
-    }
   }
 
   save() {
@@ -67,12 +57,10 @@ export class SysModuleEditComponent implements OnInit {
     }
 
     this.submitting = true;
-    this.moduleService.save(value).subscribe(res => {
+    this.http.post(`basic/user/save`, value).subscribe(res => {
+      this.submitting = false;
       this.msgSrv.success('保存成功');
       this.modal.close(true);
-    }, err => {
-    }, () => {
-      this.submitting = false;
     });
   }
 
