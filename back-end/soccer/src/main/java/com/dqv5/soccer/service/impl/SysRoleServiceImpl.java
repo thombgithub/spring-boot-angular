@@ -6,6 +6,7 @@ import com.dqv5.soccer.service.SysRoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author admin
@@ -29,5 +30,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public void delete(Integer id) {
         sysRoleRepository.delete(id);
+    }
+
+    @Override
+    public List<SysRole> findList() {
+        return sysRoleRepository.findAll();
     }
 }

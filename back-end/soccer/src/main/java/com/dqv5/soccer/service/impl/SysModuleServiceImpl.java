@@ -6,6 +6,7 @@ import com.dqv5.soccer.service.SysModuleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author duq
@@ -29,5 +30,10 @@ public class SysModuleServiceImpl implements SysModuleService {
     @Override
     public void delete(Integer id) {
         sysModuleRepository.delete(id);
+    }
+
+    @Override
+    public List<SysModule> findList() {
+        return sysModuleRepository.findAll();
     }
 }
