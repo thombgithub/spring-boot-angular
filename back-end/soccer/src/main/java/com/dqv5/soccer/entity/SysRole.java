@@ -2,6 +2,7 @@ package com.dqv5.soccer.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 角色
@@ -16,12 +17,14 @@ public class SysRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String roleName;
+    private String protect;
     private Date createTime;
     private Date lastModifiedTime;
     @ManyToOne
     private BasicUser createUser;
     @ManyToOne
     private BasicUser modUser;
+    private List<SysRoleModule> moduleList;
 
     public Integer getId() {
         return id;
@@ -37,6 +40,14 @@ public class SysRole {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getProtect() {
+        return protect;
+    }
+
+    public void setProtect(String protect) {
+        this.protect = protect;
     }
 
     public Date getCreateTime() {
@@ -69,5 +80,13 @@ public class SysRole {
 
     public void setModUser(BasicUser modUser) {
         this.modUser = modUser;
+    }
+
+    public List<SysRoleModule> getModuleList() {
+        return moduleList;
+    }
+
+    public void setModuleList(List<SysRoleModule> moduleList) {
+        this.moduleList = moduleList;
     }
 }

@@ -28,6 +28,7 @@ public class SysModule extends TreeNode {
     private String name;
     private String url;
     private String icon;
+    private String expand;
     private Integer orderNo;
     private Date createTime;
     private Date lastModifiedTime;
@@ -82,6 +83,14 @@ public class SysModule extends TreeNode {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getExpand() {
+        return expand;
+    }
+
+    public void setExpand(String expand) {
+        this.expand = expand;
     }
 
     public Integer getParentId() {
